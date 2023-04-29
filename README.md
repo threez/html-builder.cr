@@ -10,7 +10,7 @@ using the compiler at build time.
    ```yaml
    dependencies:
      html-builder:
-       github: threez/html-builder
+       github: threez/html-builder.cr
    ```
 
 2. Run `shards install`
