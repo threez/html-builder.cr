@@ -1,4 +1,4 @@
-# html-builder
+# html-builder [![.github/workflows/ci.yml](https://github.com/threez/html-builder.cr/actions/workflows/ci.yml/badge.svg)](https://github.com/threez/html-builder.cr/actions/workflows/ci.yml) [![https://threez.github.io/html-builder.cr/](https://badgen.net/badge/api/documentation/green)](https://threez.github.io/html-builder.cr/)
 
 Build HTML using a crystal DSL. The dsl strictly checks the attributes
 using the compiler at build time.
