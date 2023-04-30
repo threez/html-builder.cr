@@ -3,7 +3,7 @@ require "./builder/tags"
 
 # TODO: Write documentation for `HTML::Builder`
 module HTML::Builder
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
   @indent : Int32 = 0
 
   def doctype(doctype_attr = "html")
@@ -84,16 +84,20 @@ module HTML::Builder
     end
   end
 
-  def text(txt : String)
-    @io << "  " * @indent
-    HTML.escape(txt, @io)
-    @io << "\n"
+  def text(txt : String?)
+    if txt
+      @io << "  " * @indent
+      HTML.escape(txt, @io)
+      @io << "\n"
+    end
   end
 
-  def raw(raw_data : String)
-    @io << "  " * @indent
-    @io << raw_data
-    @io << "\n"
+  def raw(raw_data : String?)
+    if raw_data
+      @io << "  " * @indent
+      @io << raw_data
+      @io << "\n"
+    end
   end
 
   def raw(io : IO)
