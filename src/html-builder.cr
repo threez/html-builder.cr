@@ -3,7 +3,7 @@ require "./builder/tags"
 
 # TODO: Write documentation for `HTML::Builder`
 module HTML::Builder
-  VERSION = "0.1.1"
+  VERSION = "0.1.2"
   @indent : Int32 = 0
 
   def doctype(doctype_attr = "html")
