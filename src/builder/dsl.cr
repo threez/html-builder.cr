@@ -41,20 +41,20 @@ def attrs_to_args(tag : Symbol)
 end
 
 HTML::Builder::Tags.each do |tag|
-  puts "def #{tag}(#{attrs_for_tag(tag)}, &block)"
-  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(tag)}, &block)"
+  puts "def #{tag}(#{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)}, &block)"
+  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)}, &block)"
   puts "end"
   puts
-  puts "def #{tag}(#{attrs_for_tag(tag)})"
-  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(tag)})"
+  puts "def #{tag}(#{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)})"
+  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)})"
   puts "end"
   puts
 end
 
 HTML::Builder::EmptyTags.each do |tag|
-  puts "def #{tag}(*, #{attrs_for_tag(tag)})"
+  puts "def #{tag}(*, #{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)})"
 
-  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(tag)})"
+  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)})"
   puts "end"
   puts
 end

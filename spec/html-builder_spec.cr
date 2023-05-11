@@ -22,6 +22,9 @@ class Page
         para aria: {label: "Example"} do
           a data: {sample: "foobar"}, on: {click: "event.preventDefault()"} { text "Click me!" }
         end
+        select_tag name: "foo" do
+          option value: "bar" { text "blub" }
+        end
       end
     end
   end
@@ -50,6 +53,11 @@ describe HTML::Builder do
                       "        Click me!\n" +
                       "      </a>\n" +
                       "    </p>\n" +
+                      "    <select name=\"foo\">\n" +
+                      "      <option value=\"bar\">\n" +
+                      "        blub\n" +
+                      "      </option>\n" +
+                      "    </select>\n" +
                       "  </body>\n" +
                       "</html>\n")
   end
