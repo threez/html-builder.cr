@@ -7,7 +7,9 @@ module HTML::Builder
   @indent : Int32 = 0
 
   def doctype(doctype_attr = "html")
-    @io << "<!DOCTYPE #{doctype_attr}>\n"
+    @io << "<!DOCTYPE "
+    @io << doctype_attr
+    @io << ">\n"
   end
 
   def tag_attributes(**attributes)
@@ -62,31 +64,37 @@ module HTML::Builder
   end
 
   def tag(_name : Symbol, **attributes, &block)
-    @io << "  " * @indent
-    @io << "<#{_name}"
+    @indent.times { @io << "  " }
+    @io << '<'
+    @io << _name
     tag_attributes(**attributes)
     @io << ">\n"
     @indent += 1
     yield
     @indent -= 1
-    @io << "  " * @indent
-    @io << "</#{_name}>\n"
+    @indent.times { @io << "  " }
+    @io << "</"
+    @io << _name
+    @io << ">\n"
   end
 
   def tag(_name : Symbol, **attributes)
-    @io << "  " * @indent
-    @io << "<#{_name}"
+    @indent.times { @io << "  " }
+    @io << '<'
+    @io << _name
     tag_attributes(**attributes)
     if HTML::Builder::EmptyTags.includes? _name
       @io << ">\n"
     else
-      @io << "></#{_name}>\n"
+      @io << "></"
+      @io << _name
+      @io << ">\n"
     end
   end
 
   def text(txt : String?)
     if txt
-      @io << "  " * @indent
+      @indent.times { @io << "  " }
       HTML.escape(txt, @io)
       @io << "\n"
     end
@@ -94,14 +102,14 @@ module HTML::Builder
 
   def raw(raw_data : String?)
     if raw_data
-      @io << "  " * @indent
+      @indent.times { @io << "  " }
       @io << raw_data
       @io << "\n"
     end
   end
 
   def raw(io : IO)
-    @io << "  " * @indent
+    @indent.times { @io << "  " }
     IO.copy(io, @io)
     @io << "\n"
   end
