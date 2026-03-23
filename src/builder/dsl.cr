@@ -53,8 +53,7 @@ end
 
 HTML::Builder::EmptyTags.each do |tag|
   puts "def #{tag}(*, #{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)})"
-
-  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)})"
+  puts "  tag_empty(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)})"
   puts "end"
   puts
 end

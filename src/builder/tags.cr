@@ -121,5 +121,11 @@ module HTML::Builder
     select_tag: :select,
   }
 
+  # Attributes whose Crystal symbol name differs from the HTML attribute name.
+  AttributeNames = {
+    accept_charset: "accept-charset",
+    http_equiv:     "http-equiv",
+  }
+
   EmptyTags = %i(input img link br hr meta source)
 end

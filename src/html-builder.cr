@@ -3,7 +3,8 @@ require "./builder/tags"
 
 # DSL module for building HTML. Include in a class that has `@io : IO`.
 module HTML::Builder
-  VERSION = "0.1.4"
+  VERSION      = "0.1.4"
+  INDENT_CACHE = Array.new(33) { |i| "  " * i }
   @indent : Int32 = 0
 
   def doctype(doctype_attr = "html")
@@ -14,10 +15,8 @@ module HTML::Builder
 
   def tag_attributes(**attributes)
     attributes.each do |key, value|
-      if attr = HTML::Builder::Attributes[key]?
-        if name = attr[:name]?
-          key = name
-        end
+      if name = HTML::Builder::AttributeNames[key]?
+        key = name
       end
 
       if value.is_a? Hash || value.is_a? NamedTuple
@@ -64,7 +63,7 @@ module HTML::Builder
   end
 
   def tag(_name : Symbol, **attributes, &)
-    @indent.times { @io << "  " }
+    @io << INDENT_CACHE[@indent]
     @io << '<'
     @io << _name
     tag_attributes(**attributes)
@@ -72,29 +71,33 @@ module HTML::Builder
     @indent += 1
     yield
     @indent -= 1
-    @indent.times { @io << "  " }
+    @io << INDENT_CACHE[@indent]
     @io << "</"
     @io << _name
     @io << ">\n"
   end
 
   def tag(_name : Symbol, **attributes)
-    @indent.times { @io << "  " }
+    @io << INDENT_CACHE[@indent]
     @io << '<'
     @io << _name
     tag_attributes(**attributes)
-    if HTML::Builder::EmptyTags.includes? _name
-      @io << ">\n"
-    else
-      @io << "></"
-      @io << _name
-      @io << ">\n"
-    end
+    @io << "></"
+    @io << _name
+    @io << ">\n"
+  end
+
+  def tag_empty(_name : Symbol, **attributes)
+    @io << INDENT_CACHE[@indent]
+    @io << '<'
+    @io << _name
+    tag_attributes(**attributes)
+    @io << ">\n"
   end
 
   def text(txt : String?)
     if txt
-      @indent.times { @io << "  " }
+      @io << INDENT_CACHE[@indent]
       HTML.escape(txt, @io)
       @io << "\n"
     end
@@ -102,14 +105,14 @@ module HTML::Builder
 
   def raw(raw_data : String?)
     if raw_data
-      @indent.times { @io << "  " }
+      @io << INDENT_CACHE[@indent]
       @io << raw_data
       @io << "\n"
     end
   end
 
   def raw(io : IO)
-    @indent.times { @io << "  " }
+    @io << INDENT_CACHE[@indent]
     IO.copy(io, @io)
     @io << "\n"
   end
