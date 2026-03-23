@@ -38,7 +38,7 @@ module HTML::Builder
               @io << " on"
               @io << key2.to_s
               @io << "="
-              @io << value2.to_s.inspect
+              value2.to_s.inspect(@io)
             end
           end
         else
@@ -49,7 +49,7 @@ module HTML::Builder
               @io << "-"
               @io << key2.to_s
               @io << "="
-              @io << value2.to_s.inspect
+              value2.to_s.inspect(@io)
             end
           end
         end
@@ -57,7 +57,7 @@ module HTML::Builder
         @io << " "
         @io << key.to_s
         @io << "="
-        @io << value.to_s.inspect
+        value.to_s.inspect(@io)
       end
     end
   end

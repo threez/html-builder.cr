@@ -41,19 +41,42 @@ def attrs_to_args(tag : Symbol)
 end
 
 HTML::Builder::Tags.each do |tag|
-  puts "def #{tag}(#{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)}, &block)"
-  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)}, &block)"
+  real = HTML::Builder::RenamedTags[tag]? || tag
+  attrs = attrs_for_tag(real)
+  args = attrs_to_args(real)
+
+  puts "def #{tag}(#{attrs}, &)"
+  puts "  @io << INDENT_CACHE[@indent]"
+  puts "  @io << \"<#{real}\""
+  puts "  tag_attributes(#{args})"
+  puts "  @io << \">\\n\""
+  puts "  @indent += 1"
+  puts "  yield"
+  puts "  @indent -= 1"
+  puts "  @io << INDENT_CACHE[@indent]"
+  puts "  @io << \"</#{real}>\\n\""
   puts "end"
   puts
-  puts "def #{tag}(#{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)})"
-  puts "  tag(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)})"
+
+  puts "def #{tag}(#{attrs})"
+  puts "  @io << INDENT_CACHE[@indent]"
+  puts "  @io << \"<#{real}\""
+  puts "  tag_attributes(#{args})"
+  puts "  @io << \"></#{real}>\\n\""
   puts "end"
   puts
 end
 
 HTML::Builder::EmptyTags.each do |tag|
-  puts "def #{tag}(*, #{attrs_for_tag(HTML::Builder::RenamedTags[tag]? || tag)})"
-  puts "  tag_empty(:#{HTML::Builder::RenamedTags[tag]? || tag}, #{attrs_to_args(HTML::Builder::RenamedTags[tag]? || tag)})"
+  real = HTML::Builder::RenamedTags[tag]? || tag
+  attrs = attrs_for_tag(real)
+  args = attrs_to_args(real)
+
+  puts "def #{tag}(*, #{attrs})"
+  puts "  @io << INDENT_CACHE[@indent]"
+  puts "  @io << \"<#{real}\""
+  puts "  tag_attributes(#{args})"
+  puts "  @io << \">\\n\""
   puts "end"
   puts
 end
