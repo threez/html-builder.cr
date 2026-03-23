@@ -1,9 +1,9 @@
 require "html"
 require "./builder/tags"
 
-# TODO: Write documentation for `HTML::Builder`
+# DSL module for building HTML. Include in a class that has `@io : IO`.
 module HTML::Builder
-  VERSION = "0.1.2"
+  VERSION = "0.1.4"
   @indent : Int32 = 0
 
   def doctype(doctype_attr = "html")
@@ -63,7 +63,7 @@ module HTML::Builder
     end
   end
 
-  def tag(_name : Symbol, **attributes, &block)
+  def tag(_name : Symbol, **attributes, &)
     @indent.times { @io << "  " }
     @io << '<'
     @io << _name
