@@ -3,7 +3,7 @@ require "./builder/tags"
 
 # DSL module for building HTML. Include in a class that has `@io : IO`.
 module HTML::Builder
-  VERSION      = "0.1.4"
+  VERSION      = "0.1.5"
   INDENT_CACHE = Array.new(33) { |i| "  " * i }
   @indent : Int32 = 0
 
