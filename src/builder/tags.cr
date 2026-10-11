@@ -1,7 +1,7 @@
 require "./attributes"
 
 module HTML::Builder
-  Tags = %i(
+  Tags = %i[
     a
     abbr
     address
@@ -103,7 +103,7 @@ module HTML::Builder
     wbr
     para
     select_tag
-  )
+  ]
 
   TagAttributes = Hash(Symbol, Array(Symbol)).new
 
@@ -127,5 +127,5 @@ module HTML::Builder
     http_equiv:     "http-equiv",
   }
 
-  EmptyTags = %i(input img link br hr meta source)
+  EmptyTags = %i[input img link br hr meta source]
 end
